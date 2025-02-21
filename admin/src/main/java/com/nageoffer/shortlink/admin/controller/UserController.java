@@ -9,6 +9,7 @@ import com.nageoffer.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,6 +18,7 @@ public class UserController {
 
 //    @Autowired
     private final UserService userService;
+
 
     /**
      * 根据用户名查询用户信息，脱敏后的
@@ -36,7 +38,12 @@ public class UserController {
      */
     @GetMapping("/api/shortlink/v1/actual/user/{username}")
     public Result<UserActualRespDTO> getActualUserByUserName(@PathVariable String username) {
-
         return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
+    }
+
+    @GetMapping("/api/shortlink/v1/user/has-username")
+    public Result<Boolean> hasUserName(@RequestParam("username") String username) {
+
+        return Results.success(userService.hasUsername(username));
     }
 }

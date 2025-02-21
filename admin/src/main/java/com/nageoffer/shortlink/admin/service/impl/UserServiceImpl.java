@@ -10,6 +10,7 @@ import com.nageoffer.shortlink.admin.dao.mapper.UserMapper;
 import com.nageoffer.shortlink.admin.dto.resp.UserRespDTO;
 import com.nageoffer.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.redisson.api.RBloomFilter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +19,26 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements UserService {
 
     private final UserMapper userMapper;
+    private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
 
     @Override
     public UserRespDTO getUserByUsername(String username) {
-//        LambdaQueryWrapper<UserDo> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(UserDo::getUsername, username);
         LambdaQueryWrapper<UserDo> queryWrapper = Wrappers.lambdaQuery(UserDo.class).eq(UserDo::getUsername, username);
         UserDo userDo = baseMapper.selectOne(queryWrapper);
         if (null == userDo) {
             throw new ClientException(UserErrorCode.USER_NULL);
         }
-//        UserDo userDo = userMapper.selectOne(queryWrapper);
         UserRespDTO result = new UserRespDTO();
-
-        BeanUtils.copyProperties(userDo, result);       // 此方法需要判空才可以，否则会报错
+        BeanUtils.copyProperties(userDo, result);
         return result;
 
+    }
+
+    @Override
+    public boolean hasUsername(String username) {
+//        LambdaQueryWrapper<UserDo> wrapper = Wrappers.lambdaQuery(UserDo.class).eq(UserDo::getUsername, username);
+//        UserDo userDo = baseMapper.selectOne(wrapper);
+//        return userDo != null;
+        return userRegisterCachePenetrationBloomFilter.contains(username);
     }
 }
