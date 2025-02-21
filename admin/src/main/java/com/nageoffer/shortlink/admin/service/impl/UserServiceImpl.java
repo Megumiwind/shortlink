@@ -56,9 +56,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
 
     @Override
     public boolean hasUsername(String username) {
-//        LambdaQueryWrapper<UserDo> wrapper = Wrappers.lambdaQuery(UserDo.class).eq(UserDo::getUsername, username);
-//        UserDo userDo = baseMapper.selectOne(wrapper);
-//        return userDo != null;
         return userRegisterCachePenetrationBloomFilter.contains(username);
     }
 
@@ -117,7 +114,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
          * Hash
          * Key：login_用户名
          * Value：
-         *  Key：token标识
+         *  Key：token标识---uuid
          *  Val：JSON 字符串（用户信息）
          */
         String uuid = UUID.randomUUID().toString();
@@ -130,4 +127,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements 
     public Boolean checkLogin(String username, String token) {
         return stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token) != null;
     }
+
+    @Override
+    public void logout(String username, String token) {
+        if (checkLogin(username, token)) {
+            stringRedisTemplate.delete(USER_LOGIN_KEY + username);
+            return;
+        }
+        throw new ClientException("用户Token不存在或用户未登录");
+    }
+
+
 }
