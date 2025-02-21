@@ -65,6 +65,9 @@ public class UserController {
         return Results.success();
     }
 
+    /**
+     * 用户登录
+     */
     @PostMapping("admin/user/login")
     public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO requestParam) {
         UserLoginRespDTO result = userService.login(requestParam);
