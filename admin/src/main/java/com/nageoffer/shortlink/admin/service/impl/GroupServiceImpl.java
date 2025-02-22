@@ -22,11 +22,11 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     public void saveGroup(String name) {
         String gid;
         do {
-            gid = RandomGenerator.generateRandom();
+            gid = RandomGenerator.generateFixLenRandomString();
         } while (hasGid(gid));
 
         GroupDO groupDO = GroupDO.builder()
-                .gid(RandomGenerator.generateRandom())
+                .gid(RandomGenerator.generateFixLenRandomString())
                 .name(name)
                 .build();
         groupMapper.insert(groupDO);
