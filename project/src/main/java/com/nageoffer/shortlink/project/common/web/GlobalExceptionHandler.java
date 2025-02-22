@@ -1,4 +1,4 @@
-package com.nageoffer.shortlink.admin.common.web;
+package com.nageoffer.shortlink.project.common.web;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
