@@ -3,6 +3,7 @@ package com.nageoffer.shortlink.admin.controller;
 import com.nageoffer.shortlink.admin.common.convention.result.Result;
 import com.nageoffer.shortlink.admin.common.convention.result.Results;
 import com.nageoffer.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import com.nageoffer.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import com.nageoffer.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.nageoffer.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.nageoffer.shortlink.admin.service.GroupService;
@@ -56,4 +57,13 @@ public class GroupController {
         return Results.success();
     }
 
+    /**
+     * 短链接分组排序
+     * @param gid 请求参数
+     */
+    @PostMapping("sort")
+    public Result<?> sortGroup(@RequestBody List<ShortLinkGroupSortReqDTO> requestParam) {
+        groupService.sortGroup(requestParam);
+        return Results.success();
+    }
 }
