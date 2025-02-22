@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/short-link/v1/user")
+@RequestMapping("/api/short-link/admin/v1/user")
 public class UserController {
 
 //    @Autowired
@@ -68,7 +68,7 @@ public class UserController {
     /**
      * 用户登录
      */
-    @PostMapping("admin/login")
+    @PostMapping("login")
     public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO requestParam) {
         UserLoginRespDTO result = userService.login(requestParam);
         return Results.success(result);
@@ -77,7 +77,7 @@ public class UserController {
     /**
      * 检查用户是否登录
      */
-    @GetMapping("admin/check-login")
+    @GetMapping("check-login")
     public Result<Boolean> checkLogin(@RequestParam("username") String username, @RequestParam("token") String token) {
         return Results.success(userService.checkLogin(username, token));
     }
@@ -85,7 +85,7 @@ public class UserController {
     /**
      * 用户退出登录, 删除redis缓存数据
      */
-    @DeleteMapping("admin/logout")
+    @DeleteMapping("logout")
     public Result<Void> logout(@RequestParam("username") String username, @RequestParam("token") String token) {
         userService.logout(username, token);
         return Results.success();
