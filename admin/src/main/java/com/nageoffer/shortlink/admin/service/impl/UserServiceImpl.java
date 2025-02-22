@@ -36,7 +36,6 @@ import static com.nageoffer.shortlink.admin.common.constant.RedisCacheConstant.U
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDo> implements UserService {
 
-    private final UserMapper userMapper;
     private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
