@@ -37,6 +37,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
                 .gid(RandomGenerator.generateFixLenRandomString())
                 .sortOrder(0)
                 .name(name)
+                .username(UserContext.getUsername())
                 .build();
         groupMapper.insert(groupDO);
     }
