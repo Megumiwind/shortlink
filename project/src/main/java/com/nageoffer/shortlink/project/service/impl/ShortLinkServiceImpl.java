@@ -3,11 +3,13 @@ package com.nageoffer.shortlink.project.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.text.StrBuilder;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nageoffer.shortlink.admin.common.convention.exception.ServiceException;
+import com.nageoffer.shortlink.project.dto.resp.ShortLinkGroupCountQueryRespDTO;
 import com.nageoffer.shortlink.project.dao.entity.ShortLinkDO;
 import com.nageoffer.shortlink.project.dao.mapper.ShortLinkMapper;
 import com.nageoffer.shortlink.project.dto.req.ShortLinkCreateReqDTO;
@@ -21,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -65,6 +70,16 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
                 .orderByDesc(ShortLinkDO::getCreateTime);
         Page<ShortLinkDO> resultPage = shortLinkMapper.selectPage(requestParam, queryWrapper);
         return resultPage.convert(each -> BeanUtil.toBean(each, ShortLinkPageRespDTO.class));
+    }
+
+    @Override
+    public List<ShortLinkGroupCountQueryRespDTO> listGroupShortLinkCount(List<String> requestParam) {
+        QueryWrapper<ShortLinkDO> queryWrapper = Wrappers.query(new ShortLinkDO())
+                .select("gid as gid, count(*) as shortLinkCount")
+                .in("gid", requestParam)
+                .groupBy("gid");
+        List<Map<String, Object>> maps = shortLinkMapper.selectMaps(queryWrapper);
+        return BeanUtil.copyToList(maps, ShortLinkGroupCountQueryRespDTO.class);
     }
 
     private String generateSuffix(ShortLinkCreateReqDTO requestParam) {
