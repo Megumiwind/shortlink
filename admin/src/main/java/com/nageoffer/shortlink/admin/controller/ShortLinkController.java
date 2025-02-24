@@ -2,7 +2,6 @@ package com.nageoffer.shortlink.admin.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nageoffer.shortlink.admin.common.convention.result.Result;
-import com.nageoffer.shortlink.admin.common.convention.result.Results;
 import com.nageoffer.shortlink.admin.remote.dto.ShortLinkRemoteService;
 import com.nageoffer.shortlink.admin.remote.dto.req.ShortLinkCreateReqDTO;
 import com.nageoffer.shortlink.admin.remote.dto.req.ShortLinkPageReqDTO;
@@ -36,9 +35,8 @@ public class ShortLinkController {
     }
 
     @GetMapping("count")
-    public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount() {
-
-        return Results.success(null);
+    public Result<List<ShortLinkGroupCountQueryRespDTO>> listGroupShortLinkCount(@RequestParam("gid") List<String> requestParam) {
+        return shortLinkRemoteService.listGroupShortLinkCount(requestParam);
     }
 
 }
