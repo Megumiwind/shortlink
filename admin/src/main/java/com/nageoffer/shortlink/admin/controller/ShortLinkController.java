@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController("adminShortLinkController")
 @RequestMapping("/api/short-link/admin/v1/")
 public class ShortLinkController {
+    //TODO： 后期改造成SpringCould调用
     ShortLinkRemoteService shortLinkRemoteService = new ShortLinkRemoteService() {};
 
     /**
