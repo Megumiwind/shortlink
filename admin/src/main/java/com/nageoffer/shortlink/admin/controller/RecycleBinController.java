@@ -42,4 +42,6 @@ public class RecycleBinController {
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
         return shortLinkRemoteService.pageRecycleBinShortLink(requestParam);
     }
+
+
 }
