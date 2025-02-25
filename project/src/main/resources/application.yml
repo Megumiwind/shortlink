@@ -11,6 +11,10 @@ spring:
   data:
     redis:
       host: 192.168.229.129
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .html
 
 mybatis-plus:
   global-config:
