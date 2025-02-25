@@ -4,20 +4,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.nageoffer.shortlink.admin.common.convention.result.Result;
 import com.nageoffer.shortlink.admin.common.convention.result.Results;
 import com.nageoffer.shortlink.admin.remote.dto.ShortLinkRemoteService;
+import com.nageoffer.shortlink.admin.remote.dto.req.RecycleBinRemoveReqDTO;
 import com.nageoffer.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
 import com.nageoffer.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
 import com.nageoffer.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 回收站管理控制层
  */
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/short-link/admin/v1/recycle-bin/")
 public class RecycleBinController {
 
     /**
@@ -29,7 +28,7 @@ public class RecycleBinController {
     /**
      * 保存回收站
      */
-    @PostMapping("/api/short-link/v1/recycle-bin/save")
+    @PostMapping("save")
     public Result<Void> saveRecycleBin(@RequestBody RecycleBinSaveReqDTO requestParam) {
         shortLinkRemoteService.saveRecycleBin(requestParam);
         return Results.success();
@@ -38,10 +37,17 @@ public class RecycleBinController {
     /**
      * 分页查询回收站短链接
      */
-    @GetMapping("/api/short-link/admin/v1/recycle-bin/page")
+    @GetMapping("page")
     public Result<IPage<ShortLinkPageRespDTO>> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
         return shortLinkRemoteService.pageRecycleBinShortLink(requestParam);
     }
 
-
+    /**
+     * 移除短链接
+     */
+    @PostMapping("remove")
+    public Result<Void> removeRecycleBin(@RequestBody RecycleBinRemoveReqDTO requestParam) {
+        shortLinkRemoteService.removeRecycleBin(requestParam);
+        return Results.success();
+    }
 }
