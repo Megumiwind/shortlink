@@ -17,11 +17,14 @@ spring:
       suffix: .html
 
 mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       logic-delete-field: delFlag # 全局逻辑删除字段名
       logic-delete-value: 1 # 逻辑已删除值
       logic-not-delete-value: 0 # 逻辑未删除值
+  mapper-locations: classpath:mapper/*.xml
 short-link:
   stats:
     locale:

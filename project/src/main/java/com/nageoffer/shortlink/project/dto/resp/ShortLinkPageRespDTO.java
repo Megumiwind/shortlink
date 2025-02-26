@@ -7,7 +7,6 @@ import java.util.Date;
 
 /**
  * 短链接分页返回参数
- * 公众号：马丁玩编程，回复：加群，添加马哥微信（备注：link）获取项目资料
  */
 @Data
 public class ShortLinkPageRespDTO {
@@ -69,7 +68,6 @@ public class ShortLinkPageRespDTO {
      */
     private String favicon;
 
-
     /**
      * 历史PV
      */
@@ -78,7 +76,7 @@ public class ShortLinkPageRespDTO {
     /**
      * 今日PV
      */
-    private Integer toDayPv;
+    private Integer todayPv;
 
     /**
      * 历史UV
@@ -88,15 +86,15 @@ public class ShortLinkPageRespDTO {
     /**
      * 今日UV
      */
-    private Integer toDayUv;
+    private Integer todayUv;
 
     /**
      * 历史UIP
      */
-    private Integer totalUIp;
+    private Integer totalUip;
 
     /**
      * 今日UIP
      */
-    private Integer toDayUIp;
+    private Integer todayUip;
 }
