@@ -1,27 +1,14 @@
 package com.nageoffer.shortlink.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.nageoffer.shortlink.project.dao.entity.LinkAccessStatsDO;
 import com.nageoffer.shortlink.project.dao.entity.LinkDeviceStatsDO;
 import com.nageoffer.shortlink.project.dao.entity.LinkLocaleStatsDO;
 import com.nageoffer.shortlink.project.dao.entity.LinkNetworkStatsDO;
-import com.nageoffer.shortlink.project.dao.mapper.LinkAccessLogsMapper;
-import com.nageoffer.shortlink.project.dao.mapper.LinkAccessStatsMapper;
-import com.nageoffer.shortlink.project.dao.mapper.LinkBrowserStatsMapper;
-import com.nageoffer.shortlink.project.dao.mapper.LinkDeviceStatsMapper;
-import com.nageoffer.shortlink.project.dao.mapper.LinkLocaleStatsMapper;
-import com.nageoffer.shortlink.project.dao.mapper.LinkNetworkStatsMapper;
-import com.nageoffer.shortlink.project.dao.mapper.LinkOsStatsMapper;
+import com.nageoffer.shortlink.project.dao.mapper.*;
 import com.nageoffer.shortlink.project.dto.req.ShortLinkStatsReqDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsAccessDailyRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsBrowserRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsDeviceRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsLocaleCNRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsNetworkRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsOsRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsTopIpRespDTO;
-import com.nageoffer.shortlink.project.dto.resp.ShortLinkStatsUvRespDTO;
+import com.nageoffer.shortlink.project.dto.resp.*;
 import com.nageoffer.shortlink.project.service.ShortLinkStatsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,6 +38,9 @@ public class ShortLinkStatsServiceImpl implements ShortLinkStatsService {
     public ShortLinkStatsRespDTO oneShortLinkStats(ShortLinkStatsReqDTO requestParam) {
         // 基础访问详情
         List<LinkAccessStatsDO> listStatsByShortLink = linkAccessStatsMapper.listStatsByShortLink(requestParam);
+        if (CollUtil.isEmpty(listStatsByShortLink)) {
+            return null;
+        }
         // 地区访问详情（仅国内）
         List<ShortLinkStatsLocaleCNRespDTO> localeCnStats = new ArrayList<>();
         List<LinkLocaleStatsDO> listedLocaleByShortLink = linkLocaleStatsMapper.listLocaleByShortLink(requestParam);
