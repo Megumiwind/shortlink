@@ -22,3 +22,7 @@ mybatis-plus:
       logic-delete-field: delFlag # 全局逻辑删除字段名
       logic-delete-value: 1 # 逻辑已删除值
       logic-not-delete-value: 0 # 逻辑未删除值
+short-link:
+  stats:
+    locale:
+      amap-key: 824c511f0997586ea016f979fdb23087
